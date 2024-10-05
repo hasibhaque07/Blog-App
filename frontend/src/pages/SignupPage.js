@@ -9,27 +9,61 @@ const SignupPage = () => {
   const [password, setPassword] = useState();
   const [profilePhoto, setProfilePhoto] = useState(null);
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const newUser = {
+  //     name,
+  //     email,
+  //     username,
+  //     password,
+  //     profilePhoto,
+  //   };
+
+  //   axios
+  //     .post("http://localhost:3333/user/signup", newUser, { withCredentials: true })
+  //     .then((res) => {
+  //       console.log(res);
+  //       console.log("user added successfully!");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       console.log("failed to add user!");
+  //     });
+  // }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newUser = {
-      name,
-      email,
-      username,
-      password,
-      profilePhoto,
-    };
-
+  
+    // Create a new FormData object to handle file uploads
+    const formData = new FormData();
+    formData.append("name", name); // Append name
+    formData.append("email", email); // Append email
+    formData.append("username", username); // Append username
+    formData.append("password", password); // Append password
+  
+    // Check if the file exists before appending
+    if (profilePhoto) {
+      formData.append("profilephoto", profilePhoto); // Append profilePhoto with the same field name as multer expects
+    }
+  
+    // Send the form data to the server using axios
     axios
-      .post("http://localhost:3333/user/signup", newUser, { withCredentials: true })
+      .post("http://localhost:3333/user/signup", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",  // Important header for handling file uploads
+        },
+      })
       .then((res) => {
         console.log(res);
-        console.log("user added successfully!");
+        console.log("User added successfully!");
       })
       .catch((err) => {
         console.log(err);
-        console.log("failed to add user!");
+        console.log("Failed to add user!");
       });
-  }
+  };
+  
   return (
     <div>
       <h1>Signup Page</h1>

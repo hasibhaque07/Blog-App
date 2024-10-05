@@ -9,9 +9,9 @@ export const  profilePhotoUpload = (req, res, next) =>{
   );
 
   // call the middleware function
-  upload.any()(req, res, (err) => {
+  upload.single('profilephoto')(req, res, (err) => {
     if (err) {
-      res.status(401).json({
+      res.status(405).json({
         errors: err.message,
         // {
         //   profilePhoto: {

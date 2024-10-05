@@ -1,16 +1,19 @@
 import express from "express";
+import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
+
 import { User } from "../models/User.js";
 
 const router = express.Router();
-//profilePhotoUpload,
-router.post("/signup", async(req, res) => {
-    console.log("req.files:", req.files);
+
+router.post("/signup", profilePhotoUpload, async(req, res) => {
+    console.log("req.file:", req.file);  
+    console.log("req.body:", req.body);
 
     let newUser;
-    if (req.files && req.files.length > 0) {
+    if (req.file) {
        newUser = {
           ...req.body,
-          profilePhoto: req.files[0].filename,
+          profilePhoto: req.file.filename,
           //password: hashedPassword,
         };
     } else {
@@ -34,7 +37,7 @@ router.post("/signup", async(req, res) => {
     }catch(err){
         console.log("error is here: ");
         console.log(err);
-        res.status(401).send("there was a server side error!");
+        res.status(401).send("there was a server side error ,hasib!");
     }
     
 });

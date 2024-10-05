@@ -10,10 +10,13 @@ export const  uploader = (
   max_file_size,
   error_msg
 ) => {
+  
+
+  // This line sets up __dirname in an ES module context
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  // File upload folder
-  const UPLOADS_FOLDER = `${__dirname}/../../public/uploads/${subfolder_path}/ `;
+
+  const UPLOADS_FOLDER = `${__dirname}/../public/uploads/profilePhotos/`;
   // `${__dirname}/../public/uploads/${subfolder_path}/`;
 
   // define the storage
