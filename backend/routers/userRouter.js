@@ -1,11 +1,12 @@
 import express from "express";
 import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
 
+import { addUserValidationHandler, addUserValidator } from "../middlewares/user/userValidator.js";
 import { User } from "../models/User.js";
 
 const router = express.Router();
 
-router.post("/signup", profilePhotoUpload, async(req, res) => {
+router.post("/signup", profilePhotoUpload, addUserValidator, addUserValidationHandler, async(req, res) => {
     console.log("req.file:", req.file);  
     console.log("req.body:", req.body);
 
