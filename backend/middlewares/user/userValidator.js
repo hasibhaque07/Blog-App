@@ -14,13 +14,17 @@ import { User } from "../../models/User.js";
 
 // add user
 export const addUserValidator = [
+
   check("name")  
     .isLength({ min: 1 })
     .withMessage("Name is required")
-    .isAlpha("en-US", { ignore: " -" })
+    .isAlpha("en-US", { ignore: " " })
     .withMessage("Name must not contain anything other than alphabet")
     .trim(),
   check("email")
+    .isLength({ min: 1 })
+    .withMessage("Email is required")
+    .bail()
     .isEmail()
     .withMessage("Invalid email address")
     .trim()
@@ -40,8 +44,9 @@ export const addUserValidator = [
     .isAlphanumeric("en-US", { ignore: "-_" }) // Allow letters, numbers, hyphens, and underscores
     .withMessage("Username must contain only letters, numbers, hyphens, or underscores")
     .trim(),
-
   check("password")
+    .isLength({ min: 1 })
+    .withMessage("Password is required")
     .isStrongPassword()
     .withMessage(
       "Password must be at least 8 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol"
@@ -51,6 +56,7 @@ export const addUserValidator = [
 export const addUserValidationHandler = (req, res, next)  =>{
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
+  // console.log(mappedErrors);
   if (Object.keys(mappedErrors).length === 0) {
     next();
   } else {

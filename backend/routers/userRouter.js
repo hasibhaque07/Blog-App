@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import express from "express";
 import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
 
@@ -7,20 +8,22 @@ import { User } from "../models/User.js";
 const router = express.Router();
 
 router.post("/signup", profilePhotoUpload, addUserValidator, addUserValidationHandler, async(req, res) => {
-    console.log("req.file:", req.file);  
-    console.log("req.body:", req.body);
+    //console.log("req.file:", req.file);  
+    //console.log("req.body:", req.body);
 
     let newUser;
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     if (req.file) {
        newUser = {
           ...req.body,
           profilePhoto: req.file.filename,
-          //password: hashedPassword,
+          password: hashedPassword,
         };
     } else {
         newUser = {
           ...req.body,
-          //password: hashedPassword,
+          password: hashedPassword,
         };
     }
     try{

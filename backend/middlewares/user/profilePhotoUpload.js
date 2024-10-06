@@ -12,7 +12,7 @@ export const  profilePhotoUpload = (req, res, next) =>{
   upload.single('profilephoto')(req, res, (err) => {
     if (err) {
       res.status(405).json({
-        errors: err.message,
+        photoError: err.message,
         // {
         //   profilePhoto: {
         //     msg: err.message,
