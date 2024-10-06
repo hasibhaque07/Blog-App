@@ -1,13 +1,26 @@
 import axios from "axios";
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const SignupPage = () => {
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
+
+  const [nameErr, setNameErr] = useState();
+  const [usernameErr, setUsernameErr] = useState();
+  const [emailErr, setEmailErr] = useState();
+  const [passwordErr, setPasswordErr] = useState();
+  const [error, setError] = useState();
+  const [photoErr, setPhotoErr] = useState();
+
+  const [signupSuccessful, setSignupSuccessful] = useState();
+
+  // Create a ref to access the file input field
+  const fileInputRef = useRef(null);
+
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -57,31 +70,85 @@ const SignupPage = () => {
       .then((res) => {
         console.log(res);
         console.log("User added successfully!");
+
+        setSignupSuccessful("Signup Successful!");
+
+        setNameErr("");
+        setUsernameErr("");
+        setEmailErr("");
+        setPasswordErr("");
+
+        setName("");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setProfilePhoto(null);
+
+        // Clear the file input field using the ref
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        
       })
       .catch((err) => {
         console.log(err);
         console.log("Failed to add user!");
+
+        if (err.response && err.response.data && err.response.data.errors) {
+          const errors = err.response.data.errors;
+          if (errors.name) setNameErr(errors.name.msg);
+          if (errors.username) setUsernameErr(errors.username.msg);
+          if (errors.email) setEmailErr(errors.email.msg);
+          if (errors.password) setPasswordErr(errors.password.msg);
+
+          if (!errors.name) setNameErr("");
+          if (!errors.username) setUsernameErr("");
+          if (!errors.email) setEmailErr("");
+          if (!errors.password) setPasswordErr("");
+          
+          setPhotoErr("");
+          
+        }
+        else if(err.response.data.photoError){
+            setPhotoErr(err.response.data.photoError);
+            setNameErr("");
+            setUsernameErr("");
+            setEmailErr("");
+            setPasswordErr("");
+        }
+        else{
+          if(err.response.data) setError(err.response.data);
+          //setUsernameErr("");
+          //setPasswordErr("");
+        }
       });
   };
   
   return (
     <div>
       <h1>Signup Page</h1>
+      {signupSuccessful && <p style={{ color: 'green' }}>{signupSuccessful}</p>}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {nameErr && <p style={{ color: 'red' }}>{nameErr}</p>}
         <label>Name:
-          <input type='text' name='name' onChange={(e) => setName(e.target.value)}/>
+          <input type='text' value={name} name='name' onChange={(e) => setName(e.target.value)}/>
         </label><br /><br />
+        {emailErr && <p style={{ color: 'red' }}>{emailErr}</p>}
         <label>Email:
-          <input type='text' name='email' onChange={(e) => setEmail(e.target.value)}/>
+          <input type='text' value={email} name='email' onChange={(e) => setEmail(e.target.value)}/>
         </label><br /><br />
+        {usernameErr && <p style={{ color: 'red' }}>{usernameErr}</p>}
         <label>Username:
-          <input type='text' name='username' onChange={(e) => setUsername(e.target.value)}/>
+          <input type='text' value={username} name='username' onChange={(e) => setUsername(e.target.value)}/>
         </label><br /><br />
+        {passwordErr && <p style={{ color: 'red' }}>{passwordErr}</p>}
         <label>Password:
-          <input type='password' name='password' onChange={(e) => setPassword(e.target.value)}/>
+          <input type='password' value={password} name='password' onChange={(e) => setPassword(e.target.value)}/>
         </label><br /><br />
+        {photoErr && <p style={{ color: 'red' }}>{photoErr}</p>}
         <label>Upload your photo:<br /><br />
-          <input type='file' name='profilephoto' onChange={(e) => setProfilePhoto(e.target.files[0])}/>
+          <input type='file' name='profilephoto' onChange={(e) => setProfilePhoto(e.target.files[0])} ref={fileInputRef}/>
         </label><br /><br />
         <button type='submit'>Submit</button>
       </form>
