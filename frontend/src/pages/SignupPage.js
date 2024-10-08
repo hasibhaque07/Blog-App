@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
 
@@ -20,6 +21,8 @@ const SignupPage = () => {
 
   // Create a ref to access the file input field
   const fileInputRef = useRef(null);
+
+  const navigate = useNavigate();
 
 
   // const handleSubmit = (e) => {
@@ -69,7 +72,7 @@ const SignupPage = () => {
       })
       .then((res) => {
         console.log(res);
-        console.log("User added successfully!");
+        //console.log("User added successfully!");
 
         setSignupSuccessful("Signup Successful!");
 
@@ -88,6 +91,8 @@ const SignupPage = () => {
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+
+        navigate("/login");
         
       })
       .catch((err) => {

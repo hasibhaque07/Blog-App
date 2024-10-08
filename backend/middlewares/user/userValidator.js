@@ -13,7 +13,7 @@ import { User } from "../../models/User.js";
  const __dirname = path.dirname(__filename);
 
 // add user
-export const addUserValidator = [
+export const signupValidator = [
 
   check("name")  
     .isLength({ min: 1 })
@@ -53,7 +53,7 @@ export const addUserValidator = [
     ),
 ];
 
-export const addUserValidationHandler = (req, res, next)  =>{
+export const signupValidationHandler = (req, res, next)  =>{
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
   // console.log(mappedErrors);
