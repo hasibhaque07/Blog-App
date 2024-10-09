@@ -29,8 +29,9 @@ const LoginPage = () => {
 
         setUsernameErr("");
         setPasswordErr("");
-        //navigate("/todos");
-        alert("login successful!");
+
+        navigate("/dashboard");
+        //alert("login successful!");
       })
       .catch((err) => {
         console.log("login failed");
