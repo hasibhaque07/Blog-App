@@ -1,13 +1,27 @@
 import bcrypt from "bcrypt";
 import express from "express";
 import jwt from "jsonwebtoken";
-import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
 
+import { checkLogin } from "../middlewares/common/checkLogin.js";
 import { loginValidationHandler, loginValidator } from "../middlewares/login/loginValidator.js";
+import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
 import { signupValidationHandler, signupValidator } from "../middlewares/user/userValidator.js";
 import { User } from "../models/User.js";
 
 const router = express.Router();
+
+router.get("/", checkLogin, async(req, res) => {
+    try{
+        const user = await User.find({ _id: req.userId });
+        res.status(201).json({
+            message: "uset found successfully",
+            user: user
+        })
+    }catch(err){
+        console.log(err);
+        res.status(401).send("Server side error")
+    }
+});
 
 router.post("/signup", profilePhotoUpload, signupValidator, signupValidationHandler, async(req, res) => {
     //console.log("req.file:", req.file);  

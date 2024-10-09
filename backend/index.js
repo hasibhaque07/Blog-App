@@ -3,8 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import userRouter from "./routers/userRouter.js";
+
 
 const app = express();
 dotenv.config();
@@ -13,6 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+// This line sets up __dirname in an ES module context
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "public" directory
+app.use('/uploadFolder', express.static(path.join(__dirname, './public/uploads/')));
  
 app.use(cors({
     origin: 'http://localhost:3000',
