@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
 
@@ -19,8 +20,8 @@ const Dashboard = () => {
       })
   }, []);
 
-  //console.log("user: ", user);
-  //console.log("name: ", user.name);
+  console.log("user: ", user);
+  console.log("name: ", user.name);
 
   // Construct the URL to access the profile photo
   const profilePhotoUrl = user.profilePhoto 
@@ -29,9 +30,11 @@ const Dashboard = () => {
 
   return (
     <div>
+      <div>
         <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '150px' }}/>
-        <p>{ user.name }</p>
-      
+        <Link to="/profile-page" state={{user, profilePhotoUrl}}><p>{ user.name }</p></Link>
+      </div>
+      <div></div>
     </div>
   )
 }
