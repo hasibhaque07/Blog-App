@@ -6,6 +6,7 @@ import { checkLogin } from "../middlewares/common/checkLogin.js";
 import { loginValidationHandler, loginValidator } from "../middlewares/login/loginValidator.js";
 import { profilePhotoUpload } from "../middlewares/user/profilePhotoUpload.js";
 import { signupValidationHandler, signupValidator } from "../middlewares/user/userValidator.js";
+import { userValidationHandler, userValidator } from "../middlewares/user/userValidator2.js";
 import { User } from "../models/User.js";
 
 const router = express.Router();
@@ -108,6 +109,49 @@ router.post("/login", loginValidator, loginValidationHandler, async(req, res) =>
     }catch(err){
         res.status(405).send("login failed from server!");
     }
+});
+
+router.put("/update-profile", profilePhotoUpload, userValidator, userValidationHandler, checkLogin, async(req, res) => {
+    //console.log("req.file:", req.file);  
+    //console.log("req.body:", req.body);
+
+    let updatedUser;
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    if (req.file) {
+        updatedUser = {
+          ...req.body,
+          profilePhoto: req.file.filename,
+          password: hashedPassword,
+        };
+    } else {
+        updatedUser = {
+          ...req.body,
+          password: hashedPassword,
+        };
+    }
+    try{
+        // const newUser = {
+        //     name: req.body.name,
+        //     email: req.body.email,
+        //     username: req.body.username,
+        //     password: req.body.password,
+    
+        // };
+    
+         // Update the user in the database
+         const user = await User.findByIdAndUpdate(req.userId, updatedUser, {
+            new: true, // Return the updated document
+            //runValidators: true, // Run schema validators
+        });
+
+        res.status(200).send("User Updated!");
+    }catch(err){
+        console.log("error is here: ");
+        console.log(err);
+        res.status(401).send("there was a server side error ,hasib!");
+    }
+    
 });
 
 export default router;
