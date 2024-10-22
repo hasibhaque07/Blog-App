@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const ProfilePage = () => {
 
@@ -8,7 +8,7 @@ const ProfilePage = () => {
   const user = location.state.user;
   const profilePhotoUrl = location.state.profilePhotoUrl;
 
-  console.log(location.state);
+  //console.log(location.state);
   return (
     <div>
       <h1>profile page</h1>
@@ -17,6 +17,7 @@ const ProfilePage = () => {
       <p><strong>Username: </strong>{user.username}</p>
       <p><strong>Email: </strong>{user.email}</p>
       {/* <p><strong>Password: </strong>{user.password}</p> */}
+      <Link to="/edit-profile-page" state={{user}}><button>Edit Profile</button></Link>
     </div>
   )
 }

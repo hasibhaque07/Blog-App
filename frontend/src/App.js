@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
+import EditProfilePage from './pages/EditProfilePage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/signup' element={ <SignupPage />}/>
         <Route path='/dashboard' element={ <Dashboard />}/>
         <Route path='/profile-page' element={ <ProfilePage />}/>
+        <Route path='/edit-profile-page' element={ <EditProfilePage />}/>
       </Routes>
     </BrowserRouter>
   )
