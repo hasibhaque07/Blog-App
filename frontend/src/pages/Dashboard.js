@@ -33,6 +33,7 @@ const Dashboard = () => {
       <div>
         <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '150px' }}/>
         <Link to="/profile-page" state={{user, profilePhotoUrl}}><p>{ user.name }</p></Link>
+        <Link to="/add-post" ><button>New Post</button></Link>
       </div>
       <div></div>
     </div>

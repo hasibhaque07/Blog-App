@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AddPost from './pages/AddPost';
 import Dashboard from './pages/Dashboard';
 import EditProfilePage from './pages/EditProfilePage';
 import HomePage from './pages/HomePage';
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/dashboard' element={ <Dashboard />}/>
         <Route path='/profile-page' element={ <ProfilePage />}/>
         <Route path='/edit-profile-page' element={ <EditProfilePage />}/>
+        <Route path='/add-post' element={ <AddPost />}/>
       </Routes>
     </BrowserRouter>
   )
