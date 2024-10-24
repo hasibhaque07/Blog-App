@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import blogRouter from "./routers/blogRouter.js";
 import userRouter from "./routers/userRouter.js";
 
 
@@ -46,6 +47,7 @@ mongoose
     });
 
 app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 
 const notFoundHandle = (req, res, next) => {
     res.status(404).send("Your requested content was not found!")

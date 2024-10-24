@@ -16,7 +16,7 @@ export const  uploader = (
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const UPLOADS_FOLDER = `${__dirname}/../public/uploads/profilePhotos/`;
+  const UPLOADS_FOLDER = `${__dirname}/../public/uploads/${subfolder_path}/`;
   // `${__dirname}/../public/uploads/${subfolder_path}/`;
 
   // define the storage
