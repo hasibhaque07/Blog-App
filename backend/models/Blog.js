@@ -8,7 +8,6 @@ const blogSchema = mongoose.Schema(
         },
         blogContent: {
             type: String,
-            required: true,
         },
         coverPhoto: {
             type: String,
