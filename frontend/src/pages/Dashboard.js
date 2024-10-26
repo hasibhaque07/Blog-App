@@ -1,6 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { CiEdit } from "react-icons/ci";
+import { IoEyeSharp } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
+
+import "./Dashboard.css";
 
 const Dashboard = () => {
 
@@ -47,12 +52,27 @@ const Dashboard = () => {
     ? `http://localhost:3333/uploadFolder/profilePhotos/${user.profilePhoto}`
     : "http://localhost:3333/uploadFolder/profilePhotos/default.jpg";
 
-  
+  const handleDeleteBlog = (id) => {
+    axios
+      .delete(`http://localhost:3333/blog/${id}` , { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        alert("Blog deleted");
+
+        const updatedBlogs = blogs.filter((blog) => blog._id !== id);
+        setBlogs(updatedBlogs);
+      })
+      .catch((err) => {
+        console.log("Blog deletion error!");
+        console.log(err);
+      })
+
+  }
 
   return (
-    <div>
-      <div>
-        <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '150px' }}/>
+    <div style={{ display: "flex"}}>
+      <div style={{ marginRight: "50px"}}>
+        <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '`50px' }}/>
         <Link to="/profile-page" state={{user, profilePhotoUrl}}><p>{ user.name }</p></Link>
         <Link to="/add-post" ><button>New Post</button></Link>
       </div>
@@ -64,11 +84,16 @@ const Dashboard = () => {
             : "";
           
           return(
-            <div>
+            <div className="blog-container" key={blog._id}>
+              <img src={coverPhotoUrl} alt='profile' style={{ width: '60px', height: '60px'  }}/>
               <h1>{blog.blogTitle}</h1>
-              <img src={coverPhotoUrl} alt='profile' style={{ width: '150px', height: '150px' }}/>
-              {/* <div>{blog.blogContent}</div> */}
-              <div dangerouslySetInnerHTML={{ __html: blog.blogContent }}></div>
+              <div>
+                <Link to="/view-blog-post" state={{blog, coverPhotoUrl}}><IoEyeSharp /></Link>
+                <Link to="/edit-blog-post" state={{blog, coverPhotoUrl}}><CiEdit /></Link>
+                <MdDelete onClick={() => handleDeleteBlog(blog._id)}/>
+              </div>
+        
+              {/* <div dangerouslySetInnerHTML={{ __html: blog.blogContent }}></div> */}
             </div>
           )
         })}
