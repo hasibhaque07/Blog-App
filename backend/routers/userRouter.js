@@ -111,6 +111,11 @@ router.post("/login", loginValidator, loginValidationHandler, async(req, res) =>
     }
 });
 
+router.delete("/logout", (req, res) => {
+    res.clearCookie(process.env.COOKIE_NAME);
+    res.status(200).send("logout successful");
+})
+
 router.put("/update-profile", profilePhotoUpload, userValidator, userValidationHandler, checkLogin, async(req, res) => {
     //console.log("req.file:", req.file);  
     //console.log("req.body:", req.body);
@@ -152,6 +157,10 @@ router.put("/update-profile", profilePhotoUpload, userValidator, userValidationH
         res.status(401).send("there was a server side error ,hasib!");
     }
     
+});
+
+router.get('/check-auth', checkLogin, (req, res) => {
+    res.json({ authenticated: true });
 });
 
 export default router;

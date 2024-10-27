@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { CiEdit } from "react-icons/ci";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import "./Dashboard.css";
 
@@ -11,6 +11,8 @@ const Dashboard = () => {
 
   const [user, setUser] = useState({});
   const [blogs, setBlogs] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -69,12 +71,25 @@ const Dashboard = () => {
 
   }
 
+  const handleLogout = () =>{
+    axios
+      .delete("http://localhost:3333/user/logout", { withCredentials: true })
+      .then((res) =>{
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log("logout failed");
+        console.log(err);
+      })
+  }
+
   return (
     <div style={{ display: "flex"}}>
       <div style={{ marginRight: "50px"}}>
         <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '`50px' }}/>
         <Link to="/profile-page" state={{user, profilePhotoUrl}}><p>{ user.name }</p></Link>
-        <Link to="/add-post" ><button>New Post</button></Link>
+        <Link to="/add-post" ><button>New Post</button></Link><br /><br />
+        <button onClick={handleLogout}>Logout</button>
       </div>
       <div>
         {blogs && blogs.map((blog) => {
