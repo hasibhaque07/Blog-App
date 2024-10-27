@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProtectedRoute from './components/ProtectedRoute';
 import AddPost from './pages/AddPost';
 import Dashboard from './pages/Dashboard';
 import EditBlogPost from './pages/EditBlogPost';
@@ -17,12 +18,12 @@ const App = () => {
         <Route path='/' element={ <HomePage />}/>
         <Route path='/login' element={ <LoginPage />}/>
         <Route path='/signup' element={ <SignupPage />}/>
-        <Route path='/dashboard' element={ <Dashboard />}/>
-        <Route path='/profile-page' element={ <ProfilePage />}/>
-        <Route path='/edit-profile-page' element={ <EditProfilePage />}/>
-        <Route path='/add-post' element={ <AddPost />}/>
-        <Route path='/edit-blog-post' element={ <EditBlogPost />}/>
-        <Route path='/view-blog-post' element={ <ViewBlogPost />}/>
+        <Route path='/dashboard' element={ <ProtectedRoute><Dashboard /></ProtectedRoute>}/>
+        <Route path='/profile-page' element={ <ProtectedRoute><ProfilePage /></ProtectedRoute>}/>
+        <Route path='/edit-profile-page' element={ <ProtectedRoute><EditProfilePage /></ProtectedRoute>}/>
+        <Route path='/add-post' element={ <ProtectedRoute><AddPost /></ProtectedRoute>}/>
+        <Route path='/edit-blog-post' element={ <ProtectedRoute><EditBlogPost /></ProtectedRoute>}/>
+        <Route path='/view-blog-post' element={ <ProtectedRoute><ViewBlogPost /></ProtectedRoute>}/>
       </Routes>
     </BrowserRouter>
   )
