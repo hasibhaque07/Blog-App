@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoArrowBackSharp } from "react-icons/io5";
 import { Link, useLocation } from 'react-router-dom';
 
 const ProfilePage = () => {
@@ -11,6 +12,8 @@ const ProfilePage = () => {
   //console.log(location.state);
   return (
     <div>
+      <Link to="/dashboard"><IoArrowBackSharp /></Link>
+      
       <h1>profile page</h1>
       <img src={profilePhotoUrl} alt='profile' style={{ width: '150px', height: '150px' }}/>
       <p><strong>Name: </strong>{user.name}</p>
