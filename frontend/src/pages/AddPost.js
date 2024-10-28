@@ -1,7 +1,8 @@
 import axios from "axios";
 import JoditEditor from 'jodit-react';
 import React, { useRef, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { IoArrowBackSharp } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const AddPost = ({ placeholder }) => {
@@ -87,6 +88,7 @@ const AddPost = ({ placeholder }) => {
   }
   return (
     <div>
+	  <Link to="/dashboard"><IoArrowBackSharp /></Link>
 	  <h1>New Blog Post:</h1>
 	  {blogSuccess && <p style={{ color: 'green' }}>{blogSuccess}</p>}
 	  {error && <p style={{ color: 'red' }}>{error}</p>}
